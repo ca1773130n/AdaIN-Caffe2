@@ -24,6 +24,13 @@ A Caffe2 implementation of the paper "Arbitrary Style Transfer in Real-time with
 * --style_size (-ss) <num_pixels> : resize resolution (short side) for the style image (default: 512)
 * --gpu (-g) <gpuid> : GPU device ID for CUDNN (default: -1, CPU)
 
+## Examples
+
+An example image stylized by la_muse.jpg with 1024 for both content and style rescaling resolution.
+
+![original_image](examples/starbucks.jpg)
+![stylized_image](examples/starbucks.jpg_stylized_by_la_muse.jpg.png)    
+
 ## Acknowledgement
 
 Tested environment
