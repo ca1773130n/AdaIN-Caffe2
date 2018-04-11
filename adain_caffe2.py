@@ -50,7 +50,7 @@ def load_image(img_path,scale,crop,mean=0.5):
     img = img.swapaxes(1, 2).swapaxes(0, 1)
 
     # switch to BGR
-    img = img[(2, 1, 0), :, :]
+    #img = img[(2, 1, 0), :, :]
 
     # add batch size
     img = img[np.newaxis, :, :, :].astype(np.float32)
@@ -58,7 +58,7 @@ def load_image(img_path,scale,crop,mean=0.5):
     return img
 
 def save_image(filename, image, data_format='channels_first'):
-    image = image[(2, 1, 0), :, :]
+    #image = image[(2, 1, 0), :, :]
     if data_format == 'channels_first':
         image = np.transpose(image, [1, 2, 0]) # CHW --> HWC
     image *= 255
@@ -93,7 +93,9 @@ parser.add_argument('-vp', '--vgg_predict', dest='vgg19_predict_pb', type=str, d
 parser.add_argument('-di', '--decoder_init', dest='decoder_init_pb', type=str, default=None, help='Decoder init protobuf binary file (.pb)')
 parser.add_argument('-dp', '--decoder_predict', dest='decoder_predict_pb', type=str, default=None, help='Decoder predict protobuf binary file (.pb)')
 parser.add_argument('-c', '--content', dest='content_image', type=str, default=None, help='Content image file')
+parser.add_argument('-cs', '--content_size', dest='content_size', type=int, default=512, help='Resize scale (short side) for the content image')
 parser.add_argument('-s', '--style', dest='style_image', type=str, default=None, help='Style image file')
+parser.add_argument('-ss', '--style_size', dest='style_size', type=int, default=512, help='Resize scale (short side) for the style image')
 parser.add_argument('-g', '--gpu', dest='gpu_id', type=int, default=-1, help='GPU device ID for CuDNN (default: -1, CPU)')
 args = parser.parse_args()
 
@@ -133,8 +135,8 @@ with core.DeviceScope(device_opts):
         epsilon = 1e-5
     )
     
-    content_img = load_image(args.content_image, 512, False)
-    style_img = load_image(args.style_image, 512, False)
+    content_img = load_image(args.content_image, args.content_size, False)
+    style_img = load_image(args.style_image, args.style_size, False)
    
     vgg19_input_layer_name = '0'
     vgg19_conv41_layer_name = '51'
